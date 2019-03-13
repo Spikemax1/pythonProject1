@@ -1,6 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 from importFiles import *
+from datetime import date
 
 def import_into_db():
     try:
@@ -20,10 +21,13 @@ def import_into_db():
                             ); """
     cur.execute(sql_create_projcet_table)
 
-    cur.execute("""
-                    INSERT INTO products(name,count,price, date) VALUES('one', '123', '3', '2018.02.19')
-            """)
-    
+    for x in receive_data():
+        sql = """
+                    INSERT INTO products(name,count,price, date) VALUES(?,?,?,?)
+            """
+        product = (x['name'], x['count'], x['price'], date.today())
+        cur.execute(sql, product)
+        
     conn.commit()
     conn.close()
 
