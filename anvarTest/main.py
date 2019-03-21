@@ -3,18 +3,19 @@ import sqlite3
 from sqlite3 import Error
 from importFiles import *
 from datetime import date
+import datetime
 
 def receive_name(name, db_name):
     try:
         conn = sqlite3.connect(db_name)
     except Error as e:
         print(e)
-        exit()
+        return False
     cur = conn.cursor()
     search_name = (name,)
     answer = False
     sql =   """
-            SELECT name FROM products;
+            SELECT name FROM list_products;
             """
     cur.execute(sql)
     for x in cur.fetchall():
@@ -22,6 +23,30 @@ def receive_name(name, db_name):
             answer = True
             break
 
+    conn.close()
+    return answer
+
+def date_if_exists(db_name, my_id, my_date):
+    try:
+        conn = sqlite3.connect(db_name)
+    except Error as e:
+        print(e)
+        return False
+    cur = conn.cursor()
+    search = (my_id, my_date,)
+    answer = False
+    sql =   """
+            SELECT id,date FROM products_price;
+            """
+    try:
+        cur.execute(sql) 
+    except:
+        return False       
+    
+    for x in cur.fetchall():
+        if x[0] == my_id and str(x[1]) == str(my_date):
+            answer = True
+            break
     conn.close()
     return answer
 
@@ -46,7 +71,7 @@ def import_into_db(db_name):
     cur.execute(sql_create_project_table)
     
     sql =   """
-            INSERT INTO list_products(name) VALUES(?)
+            funcnameINSERT INTO list_products(name) VALUES(?)
             """
 
     for x in receive_data():       
@@ -74,8 +99,8 @@ def add_price(db_name, ins_id, ins_price):
     my_date = receive_date()
     sql_create_project = """
                                     CREATE TABLE IF NOT EXISTS products_price(
-                                    id integer PRIMARY KEY NOT NULL,
-                                    price INTEGER,
+                                    id integer,
+                                    price integer,
                                     date text
                                 );
                                 """
@@ -88,10 +113,30 @@ def add_price(db_name, ins_id, ins_price):
     conn.commit()
     conn.close()
 
-def 
+def fill_price_list(db_name):
+    try:
+        conn = sqlite3.connect(db_name)
+    except Error as e:
+        print(e)
+        exit()
+    cur = conn.cursor()
+    sql =   """
+            SELECT id,name FROM list_products; 
+            """    
+    cur.execute(sql)
+    bill_data = receive_data()
+
+    for x in cur.fetchall():
+        for j in bill_data:
+            if x[1] == j['name']:   
+                ans = date_if_exists(db_name, x[0], receive_date()) 
+                if ans == False:
+                    add_price(db_name, x[0], int(j['price']))   
+    
+
+fill_price_list("db/anv_db")
 
 
-add_price("db/anv_db", 2, 123)
 #import_into_db("db/anv_db")
     
 

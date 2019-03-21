@@ -7,7 +7,7 @@ except Error as e:
     print(e)
 
 cur = conn.cursor()
-
+#cur.execute("DROP TABLE products_price")
 sql_products =   """
         SELECT * FROM list_products;
         """
@@ -25,5 +25,5 @@ for x in cur.fetchall():
     print(x, end="\n")
 
 conn.close()
-#cur.execute("DROP TABLE products_price")
+
 
