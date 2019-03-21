@@ -71,13 +71,13 @@ def import_into_db(db_name):
     cur.execute(sql_create_project_table)
     
     sql =   """
-            funcnameINSERT INTO list_products(name) VALUES(?)
+            INSERT INTO list_products(name) VALUES(?)
             """
 
     for x in receive_data():       
         ans = receive_name(x['name'], "db/anv_db") 
 
-        #Запомнит это! 
+        #Запомнить это! 
 
         product = (x['name'],)    
         if ans == False:            
@@ -133,7 +133,7 @@ def fill_price_list(db_name):
                 if ans == False:
                     add_price(db_name, x[0], int(j['price']))   
     
-
+import_into_db("db/anv_db")
 fill_price_list("db/anv_db")
 
 
