@@ -1,9 +1,9 @@
-# -*- coding: utf8 -*-
 import sqlite3
 from sqlite3 import Error
 from importFiles import *
 from datetime import date
-import datetime
+
+create_db()
 
 def receive_name(name, db_name):
     try:
