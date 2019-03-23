@@ -83,8 +83,46 @@ def fill_price():
     conn.commit()
     conn.close()
 
+def if_bill(my_bill, my_date):
+    try:
+        conn = sqlite3.connect('db/anv_db')
+    except Error as e:
+        print(e)
+    cur = conn.cursor()
+    sql =   """
+            SELECT * FROM total_costs;
+            """
+    ans = False
+    cur.execute(sql)
+    for x in cur.fetchall():
+        a = str(x[2])
+        newDay = datetime.datetime.strptime(a, "%Y-%m-%d %H:%M:%S")
+        if x[1] == my_bill and newDay == my_date:
+            ans = True
+            break
+    conn.close()
+    return ans
+
+def insert_bill():
+    try:
+        conn = sqlite3.connect('db/anv_db')
+    except Error as e:
+        print(e)
+    cur = conn.cursor()
+    my_date = receive_date()
+    my_bill = receive_bill()
+
+    sql =   """
+            INSERT INTO total_costs(total, date_bill) VALUES(?, ?);
+            """
+    if if_bill(my_bill, my_date) == False:
+        cur.execute(sql, (my_bill, my_date,))
+    
+    conn.commit()
+    conn.close()
     
 fill_products()
+insert_bill()
 fill_price()
 
     

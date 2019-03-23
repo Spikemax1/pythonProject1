@@ -15,12 +15,21 @@ sql_products =   """
 sql_products_price =   """
         SELECT * FROM products_price;
         """
+sql_total =   """
+        SELECT * FROM total_costs;
+        """
+        
 cur.execute(sql_products)
 
 for x in cur.fetchall():
     print(x, end="\n")
 
 cur.execute(sql_products_price )
+
+for x in cur.fetchall():
+    print(x, end="\n")
+    
+cur.execute(sql_total)
 
 for x in cur.fetchall():
     print(x, end="\n")
