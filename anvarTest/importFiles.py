@@ -2,21 +2,20 @@ import codecs
 import os
 import datetime
 
-def text_extract():
-    path = u''+'import_files/text'
+def text_extract(path):
     with codecs.open(path, "r", "utf-8") as file:
-        str = file.read().strip()  
-    new_str = ''
+        str = file.read().strip()
+    new_str = ""
     for x in str:
-        if(x == ','):
-            x = '.'
+        if(x == ","):
+            x = "."
         new_str += x
-    arr = new_str.split("\n")  
+    arr = new_str.split("\n")
     return arr
      
 
-def receive_date():
-    arr = text_extract()
+def receive_date(path):
+    arr = text_extract(path)
     date = arr[0].split(' ')    
     buy_time = date[-1].split(":")
     #buy_time = datetime.time(int(buy_time[0]), int(buy_time[1]))
@@ -29,14 +28,14 @@ def receive_date():
     
     return datetime.datetime.strptime(day, "%d/%m/%Y %H:%M")
 
-def receive_bill():
-    arr = text_extract()
+def receive_bill(path):
+    arr = text_extract(path)
     str = arr[-1].split(':')[-1]
     bill = str[0:-3].strip()
     return int(bill) 
 
-def receive_data():
-    arr = text_extract()
+def receive_data(path):
+    arr = text_extract(path)
     data = arr[1:-1]
     newData = []
     for x in data:

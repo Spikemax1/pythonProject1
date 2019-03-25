@@ -9,6 +9,7 @@ except Error as e:
 cur = conn.cursor()
 #cur.execute("DROP TABLE products_list")
 #cur.execute("DROP TABLE products_price")
+#cur.execute("DROP TABLE total_costs")
 sql_products =   """
         SELECT * FROM products_list;
         """

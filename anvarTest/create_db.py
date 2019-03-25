@@ -27,7 +27,7 @@ def create_db():
                         CREATE TABLE IF NOT EXISTS total_costs(
                             id INTEGER PRIMARY KEY,
                             total INTEGER,
-                            date_bill DATETIME NOT NULL UNIQUE
+                            date_bill DATETIME NOT NULL
                         );
                         """
 

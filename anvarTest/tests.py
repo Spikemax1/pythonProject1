@@ -7,16 +7,32 @@ import os
 import codecs
 
 
-path = u''+'import_files/text2'
-with codecs.open(path, "r", "utf-8") as file:
-    str = file.read().strip()  
-arr = str.split("\n")
-new_arr = []
-for a in arr:
-    r = a.split(' ')
-    if 'бонусов:' in r:
-        continue
-    else:
-        new_arr.append(r)
-arr = '\n'.join(new_arr)
-print(arr)
+def import_from_alltext():
+
+    path = u'' + 'import_files/alltext'
+
+    with codecs.open(path, "r", "utf-8") as file:
+        str = file.read().strip()
+    arr = str.split("Гипермаркет №1")
+    new_arr = []
+    num = 1
+    for x in arr:
+        if x == "":
+            continue
+        else:
+            new_path = 'import_files/text'+ num.__str__()
+            with codecs.open(new_path, "w", "utf-8") as somefile:
+                somearr = x.split("\n")
+                for a in range(3):
+                    small_arr = somearr[-1].split(" ")
+                    if "Итого:" in small_arr:
+                        continue
+                    else:
+                        somearr.pop()
+                x = "\n".join(somearr)
+                somefile.write(x)
+            num+= 1
+
+        print(receive_date(new_path))
+
+import_from_alltext()
